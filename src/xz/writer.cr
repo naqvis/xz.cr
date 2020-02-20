@@ -25,7 +25,7 @@ class XZ::Writer < IO
   # If `#sync_close?` is `true`, closing this IO will close the underlying IO.
   property? sync_close : Bool
 
-  # Creates an instance of Flate::Writer. `close` must be invoked after all data
+  # Creates an instance of XZ::Writer. `close` must be invoked after all data
   # has written.
   def initialize(@output : IO, preset : Int32 = PRESET::DEFAULT_COMPRESSION, @sync_close : Bool = false)
     unless 0 <= preset <= 9
