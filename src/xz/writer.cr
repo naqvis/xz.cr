@@ -15,13 +15,13 @@
 #
 # File.open("./file.txt", "r") do |input_file|
 #   File.open("./file.xz", "w") do |output_file|
-#     XZ::Writer.open(output_file) do |xz|
+#     Compress::XZ::Writer.open(output_file) do |xz|
 #       IO.copy(input_file, xz)
 #     end
 #   end
 # end
 # ```
-class XZ::Writer < IO
+class Compress::XZ::Writer < IO
   # If `#sync_close?` is `true`, closing this IO will close the underlying IO.
   property? sync_close : Bool
 
@@ -80,14 +80,15 @@ class XZ::Writer < IO
   end
 
   # See `IO#write`.
-  def write(slice : Bytes) : Nil
+  def write(slice : Bytes) : Int64
     check_open
 
-    return if slice.empty?
+    return 0i64 if slice.empty?
 
     @stream.next_in = slice.to_unsafe
     @stream.avail_in = slice.size
     do_action LZMA::Action::Run
+    slice.size.to_i64
   end
 
   # See `IO#flush`.

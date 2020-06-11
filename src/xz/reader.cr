@@ -8,14 +8,14 @@
 # require "xz"
 
 # string = File.open("file.xz") do |file|
-#    XZ::Reader.open(file) do |xz|
+#    Compress::XZ::Reader.open(file) do |xz|
 #      xz.gets_to_end
 #    end
 # end
 # pp string
 # ```
 
-class XZ::Reader < IO
+class Compress::XZ::Reader < IO
   LZMA_CONCATENATED = 0x08
   include IO::Buffered
 

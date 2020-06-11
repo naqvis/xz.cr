@@ -1,4 +1,4 @@
-module XZ
+module Compress::XZ
   @[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs liblzma 2> /dev/null|| printf %s '--llzma'`")]
   lib LZMA
     alias Uint8T = UInt8

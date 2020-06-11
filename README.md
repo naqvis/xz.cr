@@ -20,7 +20,7 @@ Crystal bindings to the XZ (lzma) compression library.
 require "xz"
 ```
 
-`XZ` shard provides both `XZ::Reader` and `XZ::Writer`.
+`XZ` shard provides both `Compress::XZ::Reader` and `Compress::XZ::Writer`.
 
 ## Example: decompress an xz file
 #
@@ -28,7 +28,7 @@ require "xz"
 require "xz"
 
 string = File.open("file.xz") do |file|
-   XZ::Reader.open(file) do |xz|
+   Compress::XZ::Reader.open(file) do |xz|
      xz.gets_to_end
    end
 end
@@ -44,16 +44,12 @@ File.write("file.txt", "abcd")
 
 File.open("./file.txt", "r") do |input_file|
   File.open("./file.xz", "w") do |output_file|
-    XZ::Writer.open(output_file) do |xz|
+    Compress::XZ::Writer.open(output_file) do |xz|
       IO.copy(input_file, xz)
     end
   end
 end
 ```
-
-## Development
-
-TODO: Write development instructions here
 
 ## Contributing
 
