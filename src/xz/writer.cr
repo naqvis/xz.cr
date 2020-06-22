@@ -80,15 +80,14 @@ class Compress::XZ::Writer < IO
   end
 
   # See `IO#write`.
-  def write(slice : Bytes) : Int64
+  def write(slice : Bytes) : Nil
     check_open
 
-    return 0i64 if slice.empty?
+    return if slice.empty?
 
     @stream.next_in = slice.to_unsafe
     @stream.avail_in = slice.size
     do_action LZMA::Action::Run
-    slice.size.to_i64
   end
 
   # See `IO#flush`.
