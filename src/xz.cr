@@ -2,7 +2,7 @@
 require "semantic_version"
 
 module Compress::XZ
-  VERSION = "0.1.3"
+  VERSION = "0.1.4"
 
   LZMA_VERSION         = SemanticVersion.parse String.new(LZMA.version_string)
   LZMA_VERSION_MINIMUM = SemanticVersion.parse("5.2.4")
