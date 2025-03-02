@@ -1,6 +1,6 @@
 # Crystal XZ
 
-Crystal bindings to the XZ (lzma) compression library.
+Crystal bindings to the XZ (lzma) compression library. Requires `liblzma` version `5.2.4` and/or higher.
 
 ## Installation
 

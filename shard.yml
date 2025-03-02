@@ -6,6 +6,9 @@ authors:
 description: |
   Crystal bindings to the XZ (lzma) compression library.
 
+libraries:
+  liblzma: ">= 5.2.4"
+
 crystal: ">= 0.36.0, < 2.0.0"
 
 license: MIT
