@@ -2,7 +2,7 @@
 require "semantic_version"
 
 module Compress::XZ
-  VERSION = "0.1.5"
+  VERSION = {{ `shards version "#{__DIR__}"`.chomp.stringify }}
 
   LZMA_VERSION         = SemanticVersion.parse String.new(LZMA.version_string)
   LZMA_VERSION_MINIMUM = SemanticVersion.parse("5.2.4")

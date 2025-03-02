@@ -4,7 +4,7 @@
 # instance, it reads data from the underlying IO, decompresses it, and returns
 # it to the caller.
 # ## Example: decompress an xz file
-# ```crystal
+# ```
 # require "xz"
 
 # string = File.open("file.xz") do |file|
@@ -32,11 +32,11 @@ class Compress::XZ::Reader < IO
   def initialize(@io : IO, @sync_close : Bool = false)
     @buf = uninitialized UInt8[1] # input buffer used by xz
     @stream = LZMA::Stream.new
-    alloc = LZMA::Allocator.new
-    alloc.alloc = LZMA::AllocFunc.new { |_, items, size| GC.malloc(items * size) }
-    alloc.free = LZMA::FreeFunc.new { |_, address| GC.free(address) }
+    @alloc = LZMA::Allocator.new
+    @alloc.alloc = LZMA::AllocFunc.new { |_, items, size| GC.malloc(items * size) }
+    @alloc.free = LZMA::FreeFunc.new { |_, address| GC.free(address) }
 
-    @stream.allocator = pointerof(alloc)
+    @stream.allocator = pointerof(@alloc)
     ret = LZMA.stream_decoder(pointerof(@stream), Int64::MAX, LZMA_CONCATENATED)
     raise DecompressionError.new(ret) unless ret.ok?
 
@@ -46,7 +46,7 @@ class Compress::XZ::Reader < IO
 
   # Creates a new reader from the given *io*, yields it to the given block,
   # and closes it at its end.
-  def self.open(io : IO, sync_close : Bool = false)
+  def self.open(io : IO, sync_close : Bool = false, &)
     reader = new(io, sync_close: sync_close)
     yield reader ensure reader.close
   end
@@ -58,14 +58,14 @@ class Compress::XZ::Reader < IO
 
   # Creates a new reader from the given *io*, yields it to the given block,
   # and closes it at the end.
-  def self.open(io : IO, sync_close = false)
+  def self.open(io : IO, sync_close = false, &)
     reader = new(io, sync_close: sync_close)
     yield reader ensure reader.close
   end
 
   # Creates a new reader from the given *filename*, yields it to the given block,
   # and closes it at the end.
-  def self.open(filename : String)
+  def self.open(filename : String, &)
     reader = new(filename)
     yield reader ensure reader.close
   end
